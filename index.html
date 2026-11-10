@@ -17,6 +17,7 @@
   --bg: #101522;
   --glass: rgba(255,255,255,.075);
   --border: rgba(255,255,255,.14);
+  --muted: #aab4c8;
 }
 
 * {
@@ -29,11 +30,24 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   font-family: 'Vazirmatn', sans-serif;
-  color: #fff;
+  color: white;
   background:
     radial-gradient(ellipse at 15% 15%, rgba(244,143,177,.17), transparent 40%),
     radial-gradient(ellipse at 85% 55%, rgba(128,216,255,.17), transparent 42%),
-    #101522;
+    var(--bg);
+}
+
+button, input {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
 }
 
 body::before {
@@ -42,7 +56,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   opacity: .12;
-  background-image: radial-gradient(#ffffff 0.7px, transparent 0.7px);
+  background-image: radial-gradient(#fff .7px, transparent .7px);
   background-size: 32px 32px;
 }
 
@@ -59,7 +73,6 @@ body::before {
   direction: ltr;
   font-size: 22px;
   font-weight: 800;
-  letter-spacing: -1px;
 }
 
 .logo span {
@@ -70,7 +83,7 @@ body::before {
 
 .nav-label {
   font-size: 12px;
-  color: #aab4c8;
+  color: var(--muted);
   padding: 9px 16px;
   border: 1px solid var(--border);
   border-radius: 30px;
@@ -112,13 +125,13 @@ h1 {
 }
 
 h1 span {
-  background: linear-gradient(90deg,#f48fb1,#80d8ff);
+  background: linear-gradient(90deg,var(--pink),var(--blue));
   -webkit-background-clip: text;
   color: transparent;
 }
 
 .description {
-  color: #aab4c8;
+  color: var(--muted);
   font-size: 14px;
   line-height: 2.3;
   max-width: 470px;
@@ -135,16 +148,14 @@ h1 span {
   padding: 13px 23px;
   border-radius: 13px;
   border: 1px solid var(--border);
-  font-family: inherit;
   font-size: 13px;
-  cursor: pointer;
   transition: .25s;
 }
 
 .primary {
   color: #151522;
   font-weight: 700;
-  background: linear-gradient(110deg,#f48fb1,#80d8ff);
+  background: linear-gradient(110deg,var(--pink),var(--blue));
   border: none;
   box-shadow: 0 8px 30px rgba(244,143,177,.17);
 }
@@ -157,7 +168,6 @@ h1 span {
 
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(128,216,255,.17);
 }
 
 .visual {
@@ -172,9 +182,7 @@ h1 span {
   width: 245px;
   height: 245px;
   border-radius: 50%;
-  position: relative;
-  background:
-    radial-gradient(circle at 30% 25%,
+  background: radial-gradient(circle at 30% 25%,
     rgba(255,255,255,.95),
     rgba(244,143,177,.45) 22%,
     rgba(128,216,255,.25) 52%,
@@ -183,9 +191,7 @@ h1 span {
   box-shadow:
     inset -20px -20px 55px rgba(128,216,255,.24),
     inset 15px 15px 35px rgba(255,255,255,.24),
-    0 0 80px rgba(244,143,177,.22),
-    0 0 110px rgba(128,216,255,.15);
-  backdrop-filter: blur(10px);
+    0 0 80px rgba(244,143,177,.22);
   animation: float 6s ease-in-out infinite;
 }
 
@@ -199,25 +205,11 @@ h1 span {
   top: 75px;
   left: -34px;
   transform: rotate(-28deg);
-  box-shadow: 0 0 22px rgba(128,216,255,.2);
-}
-
-.orb::after {
-  content: "";
-  position: absolute;
-  width: 75px;
-  height: 75px;
-  background: rgba(255,255,255,.23);
-  filter: blur(18px);
-  border-radius: 50%;
-  top: 35px;
-  left: 45px;
 }
 
 .mini-orb {
   position: absolute;
   border-radius: 50%;
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255,255,255,.5);
   animation: float 5s ease-in-out infinite;
 }
@@ -236,7 +228,6 @@ h1 span {
   bottom: 65px;
   left: 30px;
   background: rgba(244,143,177,.35);
-  animation-delay: -2s;
 }
 
 .glass-card {
@@ -247,7 +238,6 @@ h1 span {
   border-radius: 22px;
   background: rgba(255,255,255,.055);
   backdrop-filter: blur(22px);
-  box-shadow: 0 20px 65px rgba(0,0,0,.14);
 }
 
 .card-title {
@@ -275,7 +265,7 @@ h1 span {
 }
 
 .room-box p {
-  color: #aab4c8;
+  color: var(--muted);
   font-size: 11px;
   line-height: 2;
   margin-bottom: 17px;
@@ -290,13 +280,11 @@ h1 span {
   border-radius: 10px;
   outline: none;
   margin-bottom: 12px;
-  font-family: inherit;
   font-size: 12px;
 }
 
 .input:focus {
   border-color: var(--blue);
-  box-shadow: 0 0 15px rgba(128,216,255,.1);
 }
 
 .input::placeholder {
@@ -305,6 +293,23 @@ h1 span {
 
 .room-box button {
   width: 100%;
+}
+
+.room-result {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid rgba(128,216,255,.25);
+  border-radius: 14px;
+  background: rgba(128,216,255,.07);
+}
+
+.room-result[hidden] {
+  display: none !important;
+}
+
+.room-result .input {
+  margin-top: 10px;
+  text-align: left;
 }
 
 .features {
@@ -320,7 +325,6 @@ h1 span {
   background: var(--glass);
   border: 1px solid var(--border);
   border-radius: 18px;
-  backdrop-filter: blur(18px);
 }
 
 .feature .symbol {
@@ -335,7 +339,7 @@ h1 span {
 
 .feature p {
   font-size: 11px;
-  color: #aab4c8;
+  color: var(--muted);
   line-height: 2;
 }
 
@@ -346,76 +350,267 @@ footer {
   font-size: 11px;
   border-top: 1px solid rgba(255,255,255,.08);
 }
-.room-result {
-  margin-top: 18px;
-  padding: 16px;
-  border: 1px solid rgba(128,216,255,.25);
-  border-radius: 14px;
-  background: rgba(128,216,255,.07);
-}
 
-.room-result[hidden] {
-  display: none;
-}
-
-.room-result .input {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  text-align: left;
-}
-
-.room-result .btn {
-  width: 100%;
-}
 @keyframes float {
   0%,100% { transform: translateY(0) rotate(0); }
   50% { transform: translateY(-17px) rotate(4deg); }
 }
 
-@media(max-width:800px) {
+/* ROOM */
+
+#watch-room {
+  width: min(1400px,96%);
+  margin: 35px auto;
+  color: white;
+}
+
+#watch-room[hidden] {
+  display: none !important;
+}
+
+.live-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  backdrop-filter: blur(18px);
+}
+
+.live-brand {
+  font-size: 19px;
+  font-weight: 800;
+  direction: ltr;
+}
+
+.live-brand span {
+  color: var(--pink);
+}
+
+.room-id {
+  color: #b9c9ff;
+  direction: ltr;
+  font-size: 13px;
+}
+
+.connection-status {
+  font-size: 11px;
+  color: var(--blue);
+}
+
+.live-layout {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 350px;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.video-panel,
+.chat-panel,
+.video-tools {
+  background: rgba(255,255,255,.065);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 35px rgba(0,0,0,.2);
+}
+
+.video-panel {
+  padding: 12px;
+}
+
+.video-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 3px 5px;
+}
+
+.video-heading span {
+  color: var(--pink);
+  font-size: 13px;
+}
+
+.video-screen {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #080b18;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.video-screen video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.video-tools {
+  margin-top: 14px;
+  padding: 16px;
+}
+
+.video-tools h3 {
+  font-size: 14px;
+}
+
+.video-tools input,
+.chat-input {
+  min-width: 0;
+  width: 100%;
+  padding: 13px;
+  color: white;
+  background: rgba(255,255,255,.07);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  outline: none;
+}
+
+.video-tools input::placeholder,
+.chat-input::placeholder {
+  color: #aeb4ca;
+}
+
+.video-url-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.glass-btn {
+  border: 1px solid rgba(255,255,255,.22);
+  background: linear-gradient(135deg,
+    rgba(225,90,255,.2),
+    rgba(65,160,255,.2));
+  color: white;
+  border-radius: 12px;
+  padding: 11px 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: .2s;
+}
+
+.glass-btn:hover {
+  border-color: var(--pink);
+  box-shadow: 0 0 18px rgba(180,100,255,.3);
+}
+
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  overflow: hidden;
+}
+
+.chat-heading {
+  padding: 17px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-heading small {
+  color: var(--blue);
+}
+
+.chat-messages {
+  flex: 1;
+  min-height: 220px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.chat-message {
+  margin-bottom: 15px;
+  font-size: 13px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+
+.chat-message strong {
+  color: var(--pink);
+  margin-left: 5px;
+}
+
+.chat-bottom {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  background: rgba(5,10,30,.22);
+}
+
+.chat-send {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.chat-send button {
+  min-width: 48px;
+}
+
+.invite-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+.invite-row small {
+  color: #b9c8e8;
+}
+
+.back-row {
+  margin-top: 18px;
+}
+
+@media(max-width:850px) {
   .hero {
     grid-template-columns: 1fr;
     text-align: center;
-    margin-top: 30px;
   }
 
-  .content {
-    order: 1;
-  }
-
-  .visual {
-    order: 0;
-    min-height: 300px;
-  }
-
-  .orb {
-    width: 180px;
-    height: 180px;
-  }
-
-  .orb::before {
-    width: 240px;
-    height: 65px;
-    left: -30px;
-    top: 55px;
-  }
+  .content { order: 1; }
+  .visual { order: 0; min-height: 300px; }
 
   .description {
     margin-left: auto;
     margin-right: auto;
   }
 
-  .actions {
-    justify-content: center;
-  }
+  .actions { justify-content: center; }
 
-  .room-grid {
+  .room-grid,
+  .live-layout {
     grid-template-columns: 1fr;
   }
 
   .features {
     grid-template-columns: 1fr;
   }
+
+  .chat-panel { min-height: 400px; }
+}
+
+@media(max-width:480px) {
+  #watch-room {
+    width: 94%;
+    margin-top: 20px;
+  }
+
+  .video-panel { padding: 8px; }
+  .video-url-row { flex-direction: column; }
+  .video-url-row button { width: 100%; }
+  .invite-row { align-items: flex-start; flex-direction: column; }
+  .invite-row button { width: 100%; }
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -429,13 +624,12 @@ footer {
 
 <body>
 
-<header class="navbar">
+<header class="navbar" id="main-navbar">
   <div class="logo">WATCH <span>TOGETHER</span></div>
   <div class="nav-label">سینمای خصوصی شما</div>
 </header>
 
-<section class="hero">
-
+<section class="hero" id="main-hero">
   <div class="content">
     <div class="tag">✦ A NEW WAY TO WATCH</div>
 
@@ -456,7 +650,7 @@ footer {
       </button>
 
       <button class="btn secondary"
-        onclick="document.getElementById('join-code').focus()">
+        onclick="document.getElementById('join-code').focus(); document.getElementById('rooms').scrollIntoView({behavior:'smooth'})">
         ورود به اتاق
       </button>
     </div>
@@ -467,61 +661,50 @@ footer {
     <div class="mini-orb mini-one"></div>
     <div class="mini-orb mini-two"></div>
   </div>
-
 </section>
 
 <section class="glass-card" id="rooms">
   <div class="card-title">شروع تماشای گروهی</div>
 
   <div class="room-grid">
-
     <div class="room-box">
       <h3>ساخت اتاق جدید</h3>
       <p>یک اتاق خصوصی بساز و دوستانت را دعوت کن.</p>
+
       <button class="btn primary" id="create-room-btn" onclick="createRoom()">
-  + ساخت اتاق
-</button>
+        + ساخت اتاق
+      </button>
 
-<div class="room-result" id="room-result" hidden>
-  <p id="room-message">اتاق شما ساخته شد!</p>
+      <div class="room-result" id="room-result" hidden>
+        <p id="room-message">اتاق شما ساخته شد!</p>
 
-  <input
-    class="input"
-    id="invite-link"
-    type="text"
-    readonly
-    dir="ltr"
-  >
+        <input class="input" id="invite-link" type="text" readonly dir="ltr">
 
-  <button class="btn secondary" onclick="copyInviteLink()">
-    کپی لینک دعوت
-  </button>
-</div>
+        <button class="btn secondary" onclick="copyInviteLink()">
+          کپی لینک دعوت
+        </button>
+      </div>
     </div>
 
     <div class="room-box">
       <h3>ورود به اتاق</h3>
       <p>کد یا لینک اتاق دوستت را وارد کن.</p>
-      <input
-        class="input"
-        id="join-code"
-        type="text"
-        placeholder="Room ID یا لینک اتاق"
-      >
-      <button class="btn secondary" onclick="joinRoom()">
-  ورود به اتاق
-</button>
-    </div>
 
+      <input class="input" id="join-code"
+        type="text" placeholder="Room ID یا لینک اتاق">
+
+      <button class="btn secondary" onclick="joinRoom()">
+        ورود به اتاق
+      </button>
+    </div>
   </div>
 </section>
 
-<section class="features">
-
+<section class="features" id="main-features">
   <div class="feature">
     <div class="symbol">◉</div>
     <h3>پخش هماهنگ</h3>
-    <p>همه اعضا فیلم را با زمان پخش یکسان تماشا می‌کنند.</p>
+    <p>اعضای اتاق می‌توانند پخش، توقف و زمان ویدئو را هماهنگ کنند.</p>
   </div>
 
   <div class="feature">
@@ -535,16 +718,113 @@ footer {
     <h3>چت زنده</h3>
     <p>هنگام تماشای فیلم با دوستانت گفتگو کن.</p>
   </div>
-
 </section>
 
-<footer>
+<footer id="main-footer">
   WATCH TOGETHER · YOUR SHARED CINEMA · 2026
 </footer>
 
+<!-- ROOM PAGE -->
+
+<section id="watch-room" hidden>
+
+  <div class="live-top">
+    <div class="live-brand">WATCH <span>TOGETHER</span></div>
+
+    <div class="room-id">
+      شناسه اتاق: <strong id="current-room-id"></strong>
+    </div>
+
+    <div class="connection-status" id="connection-status">
+      در حال اتصال...
+    </div>
+  </div>
+
+  <div class="live-layout">
+
+    <div class="video-column">
+      <div class="video-panel">
+        <div class="video-heading">
+          <strong>سینمای گروهی</strong>
+          <span>● LIVE ROOM</span>
+        </div>
+
+        <div class="video-screen">
+          <video id="room-video" controls playsinline></video>
+        </div>
+      </div>
+
+      <div class="video-tools">
+        <h3>انتخاب ویدئو</h3>
+
+        <div class="video-url-row">
+          <input id="video-url" type="url"
+            placeholder="لینک مستقیم فایل MP4" dir="ltr">
+
+          <button class="glass-btn" onclick="loadRoomVideo()">
+            ▶ پخش ویدئو
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-panel">
+      <div class="chat-heading">
+        <strong>گفت‌وگوی زنده</strong>
+        <small>چت گروهی</small>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-message">
+          <strong>سیستم</strong>
+          به سینمای گروهی خوش آمدید!
+        </div>
+      </div>
+
+      <div class="chat-bottom">
+        <div class="chat-send">
+          <input class="chat-input" id="chat-input"
+            placeholder="پیام خود را بنویسید...">
+
+          <button class="glass-btn" type="button"
+            onclick="sendChatMessage()" title="ارسال پیام">
+            ➤
+          </button>
+        </div>
+
+        <div class="invite-row">
+          <small>دعوت دوستان به اتاق</small>
+
+          <button class="glass-btn" onclick="copyRoomLink()">
+            ◈ کپی لینک دعوت
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="back-row">
+    <button class="glass-btn" onclick="leaveRoom()">
+      ← بازگشت به صفحه اصلی
+    </button>
+  </div>
+</section>
+
 <script>
+"use strict";
+
+/* SERVER SETTINGS */
 
 const API_BASE = "https://watch-together-api.amirali-nasiri-200.workers.dev";
+const WS_BASE = API_BASE.replace(/^https:/, "wss:").replace(/^http:/, "ws:");
+
+let roomSocket = null;
+let currentRoomId = null;
+let applyingRemoteVideoEvent = false;
+let pendingRemoteTime = null;
+
+/* CREATE ROOM */
 
 async function createRoom() {
   const button = document.getElementById("create-room-btn");
@@ -577,8 +857,8 @@ async function createRoom() {
     button.textContent = "اتاق ساخته شد";
 
   } catch (error) {
-    console.error(error);
-    alert("ساخت اتاق ناموفق بود. اتصال سرور را بررسی کن.");
+    console.error("Create room error:", error);
+    alert("ساخت اتاق ناموفق بود. اتصال Worker یا پاسخ سرور را بررسی کن.");
     button.textContent = "+ ساخت اتاق";
 
   } finally {
@@ -586,26 +866,25 @@ async function createRoom() {
   }
 }
 
+/* COPY INVITE LINK ON HOME PAGE */
+
 async function copyInviteLink() {
-  const inviteInput = document.getElementById("invite-link");
+  const input = document.getElementById("invite-link");
 
   try {
-    await navigator.clipboard.writeText(inviteInput.value);
+    await navigator.clipboard.writeText(input.value);
     alert("لینک دعوت کپی شد!");
-  } catch {
-    inviteInput.select();
-    alert("لینک را به صورت دستی کپی کن.");
+  } catch (error) {
+    input.focus();
+    input.select();
+    alert("لینک انتخاب شد؛ آن را با Ctrl+C کپی کن.");
   }
 }
 
+/* JOIN ROOM */
+
 function joinRoom() {
   const input = document.getElementById("join-code");
-
-  if (!input) {
-    alert("کادر ورود به اتاق پیدا نشد.");
-    return;
-  }
-
   const value = input.value.trim();
 
   if (!value) {
@@ -619,8 +898,11 @@ function joinRoom() {
     if (value.includes("://")) {
       const url = new URL(value);
       roomId = url.searchParams.get("room");
+    } else if (value.includes("?room=")) {
+      const url = new URL(value, window.location.origin);
+      roomId = url.searchParams.get("room");
     }
-  } catch {
+  } catch (error) {
     alert("لینک اتاق معتبر نیست.");
     return;
   }
@@ -630,342 +912,299 @@ function joinRoom() {
     return;
   }
 
-  window.location.href =
-    window.location.origin + "/?room=" + roomId;
+  window.location.href = `${window.location.origin}/?room=${roomId}`;
 }
 
-  if (!roomId || !/^[a-f0-9]{8}$/i.test(roomId)) {
-    alert("شناسه اتاق معتبر نیست.");
+/* SHOW ROOM */
+
+function showRoom(roomId) {
+  currentRoomId = roomId;
+
+  document.getElementById("main-navbar").hidden = true;
+  document.getElementById("main-hero").hidden = true;
+  document.getElementById("rooms").hidden = true;
+  document.getElementById("main-features").hidden = true;
+  document.getElementById("main-footer").hidden = true;
+
+  document.getElementById("watch-room").hidden = false;
+  document.getElementById("current-room-id").textContent = roomId;
+
+  connectToRoom(roomId);
+}
+
+/* WEBSOCKET CONNECTION */
+
+function connectToRoom(roomId) {
+  const status = document.getElementById("connection-status");
+
+  if (roomSocket) {
+    roomSocket.close();
+    roomSocket = null;
+  }
+
+  status.textContent = "در حال اتصال...";
+
+  try {
+    roomSocket = new WebSocket(
+      `${WS_BASE}/ws/${encodeURIComponent(roomId)}`
+    );
+
+    roomSocket.addEventListener("open", () => {
+      status.textContent = "متصل به اتاق";
+    });
+
+    roomSocket.addEventListener("message", (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        handleRoomMessage(data);
+      } catch (error) {
+        console.error("Invalid server message:", error);
+      }
+    });
+
+    roomSocket.addEventListener("close", () => {
+      status.textContent = "اتصال قطع شد";
+    });
+
+    roomSocket.addEventListener("error", (error) => {
+      console.error("WebSocket error:", error);
+      status.textContent = "خطا در اتصال";
+    });
+
+  } catch (error) {
+    console.error("Connection error:", error);
+    status.textContent = "اتصال ناموفق";
+  }
+}
+
+/* SEND WEBSOCKET MESSAGE */
+
+function sendRoomMessage(data) {
+  if (!roomSocket || roomSocket.readyState !== WebSocket.OPEN) {
+    return false;
+  }
+
+  roomSocket.send(JSON.stringify(data));
+  return true;
+}
+
+/* RECEIVE WEBSOCKET MESSAGE */
+
+function handleRoomMessage(data) {
+  if (!data || !data.type) return;
+
+  if (data.type === "connected") {
+    document.getElementById("connection-status").textContent =
+      "متصل به اتاق";
     return;
   }
 
-  window.location.href =
-    `${window.location.origin}/?room=${roomId}`;
+  if (data.type === "error") {
+    console.error("Server error:", data.message);
+    return;
+  }
+
+  if (data.type === "chat") {
+    addChatMessage("دوست", data.message || "");
+    return;
+  }
+
+  if (data.type === "play") {
+    syncVideo(data.currentTime, true);
+    return;
+  }
+
+  if (data.type === "pause") {
+    syncVideo(data.currentTime, false);
+    return;
+  }
+
+  if (data.type === "seek") {
+    syncVideo(data.currentTime, null);
+  }
 }
+
+/* CHAT */
+
+function addChatMessage(sender, message) {
+  const container = document.getElementById("chat-messages");
+  const item = document.createElement("div");
+  const name = document.createElement("strong");
+  const text = document.createElement("span");
+
+  item.className = "chat-message";
+  name.textContent = sender;
+  text.textContent = message;
+
+  item.appendChild(name);
+  item.appendChild(text);
+  container.appendChild(item);
+
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendChatMessage() {
+  const input = document.getElementById("chat-input");
+  const message = input.value.trim();
+
+  if (!message) return;
+
+  if (!sendRoomMessage({
+    type: "chat",
+    message: message
+  })) {
+    alert("اتصال به اتاق برقرار نیست.");
+    return;
+  }
+
+  addChatMessage("شما", message);
+  input.value = "";
+  input.focus();
+}
+
+/* VIDEO SOURCE */
+
+function loadRoomVideo() {
+  const input = document.getElementById("video-url");
+  const video = document.getElementById("room-video");
+  const value = input.value.trim();
+
+  if (!value) {
+    alert("لینک ویدئو را وارد کن.");
+    return;
+  }
+
+  try {
+    const url = new URL(value);
+
+    if (url.protocol !== "https:" && url.protocol !== "http:") {
+      throw new Error("Invalid protocol");
+    }
+
+    video.src = url.href;
+    video.load();
+
+    video.addEventListener("loadedmetadata", () => {
+      if (pendingRemoteTime !== null) {
+        video.currentTime = pendingRemoteTime;
+        pendingRemoteTime = null;
+      }
+    }, { once: true });
+
+  } catch (error) {
+    alert("آدرس ویدئو معتبر نیست.");
+  }
+}
+
+/* VIDEO SYNCHRONIZATION */
+
+function syncVideo(time, shouldPlay) {
+  const video = document.getElementById("room-video");
+
+  if (!video.src) return;
+
+  applyingRemoteVideoEvent = true;
+
+  if (typeof time === "number" && Number.isFinite(time)) {
+    if (video.readyState >= 1) {
+      video.currentTime = time;
+    } else {
+      pendingRemoteTime = time;
+    }
+  }
+
+  if (shouldPlay === true) {
+    video.play().catch(() => {
+      console.warn("مرورگر اجازه پخش خودکار نداد.");
+    });
+  } else if (shouldPlay === false) {
+    video.pause();
+  }
+
+  setTimeout(() => {
+    applyingRemoteVideoEvent = false;
+  }, 500);
+}
+
+function setupVideoSync() {
+  const video = document.getElementById("room-video");
+
+  video.addEventListener("play", () => {
+    if (applyingRemoteVideoEvent) return;
+
+    sendRoomMessage({
+      type: "play",
+      currentTime: video.currentTime
+    });
+  });
+
+  video.addEventListener("pause", () => {
+    if (applyingRemoteVideoEvent) return;
+
+    sendRoomMessage({
+      type: "pause",
+      currentTime: video.currentTime
+    });
+  });
+
+  video.addEventListener("seeked", () => {
+    if (applyingRemoteVideoEvent) return;
+
+    sendRoomMessage({
+      type: "seek",
+      currentTime: video.currentTime
+    });
+  });
+}
+
+/* COPY ROOM LINK */
+
+async function copyRoomLink() {
+  const link = new URL("/", window.location.origin);
+  link.searchParams.set("room", currentRoomId);
+
+  try {
+    await navigator.clipboard.writeText(link.toString());
+    alert("لینک دعوت کپی شد!");
+  } catch (error) {
+    prompt("لینک دعوت اتاق:", link.toString());
+  }
+}
+
+/* LEAVE ROOM */
+
+function leaveRoom() {
+  if (roomSocket) {
+    roomSocket.close();
+    roomSocket = null;
+  }
+
+  window.location.href = window.location.origin;
+}
+
+/* INITIALIZE */
+
+setupVideoSync();
+
+const params = new URLSearchParams(window.location.search);
+const roomFromUrl = params.get("room");
+
+if (roomFromUrl) {
+  if (/^[a-f0-9]{8}$/i.test(roomFromUrl)) {
+    showRoom(roomFromUrl);
+  } else {
+    alert("شناسه اتاق در لینک معتبر نیست.");
+  }
+}
+
+/* SEND CHAT WITH ENTER */
+
+document.getElementById("chat-input").addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    sendChatMessage();
+  }
+});
 </script>
-
-
-<style>
-#watch-room {
-  width: min(1400px, 96%);
-  margin: 35px auto;
-  color: #fff;
-}
-
-#watch-room .live-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-  padding: 14px 18px;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.13);
-  border-radius: 18px;
-  backdrop-filter: blur(18px);
-}
-
-#watch-room .live-brand {
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-#watch-room .live-brand span {
-  color: #d77bff;
-}
-
-#watch-room .room-id {
-  color: #b9c9ff;
-  direction: ltr;
-  font-size: 13px;
-}
-
-#watch-room .live-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 350px;
-  gap: 18px;
-  align-items: stretch;
-}
-
-#watch-room .video-panel,
-#watch-room .chat-panel,
-#watch-room .video-tools {
-  background: rgba(255,255,255,.065);
-  border: 1px solid rgba(255,255,255,.13);
-  border-radius: 20px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 10px 35px rgba(0,0,0,.2);
-}
-
-#watch-room .video-panel {
-  padding: 12px;
-}
-
-#watch-room .video-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  padding: 3px 5px;
-}
-
-#watch-room .video-heading span {
-  color: #ff8bd2;
-  font-size: 13px;
-}
-
-#watch-room .video-screen {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #080b18;
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-#watch-room .video-screen video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-#watch-room .video-tools {
-  margin-top: 14px;
-  padding: 16px;
-}
-
-#watch-room .video-tools input,
-#watch-room .chat-input {
-  min-width: 0;
-  width: 100%;
-  padding: 13px;
-  color: white;
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 12px;
-  outline: none;
-}
-
-#watch-room input::placeholder {
-  color: #aeb4ca;
-}
-
-#watch-room .glass-btn {
-  border: 1px solid rgba(255,255,255,.22);
-  background: linear-gradient(
-    135deg,
-    rgba(225,90,255,.2),
-    rgba(65,160,255,.2)
-  );
-  color: white;
-  border-radius: 12px;
-  padding: 11px 15px;
-  cursor: pointer;
-  backdrop-filter: blur(15px);
-  transition: .2s;
-}
-
-#watch-room .glass-btn:hover {
-  border-color: #d58aff;
-  box-shadow: 0 0 18px rgba(180,100,255,.3);
-}
-
-#watch-room .chat-panel {
-  display: flex;
-  flex-direction: column;
-  min-height: 480px;
-  overflow: hidden;
-}
-
-#watch-room .chat-heading {
-  padding: 17px;
-  border-bottom: 1px solid rgba(255,255,255,.12);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#watch-room .chat-heading small {
-  color: #9ebdff;
-}
-
-#watch-room .chat-messages {
-  flex: 1;
-  min-height: 220px;
-  padding: 16px;
-  overflow-y: auto;
-}
-
-#watch-room .chat-message {
-  margin-bottom: 18px;
-  font-size: 13px;
-  line-height: 1.9;
-}
-
-#watch-room .chat-message strong {
-  color: #d99aff;
-  margin-left: 5px;
-}
-
-#watch-room .chat-bottom {
-  padding: 12px;
-  border-top: 1px solid rgba(255,255,255,.12);
-  background: rgba(5,10,30,.22);
-}
-
-#watch-room .chat-send {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-#watch-room .invite-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255,255,255,.1);
-}
-
-#watch-room .invite-row small {
-  color: #b9c8e8;
-}
-
-#watch-room .back-row {
-  margin-top: 18px;
-  display: flex;
-  justify-content: flex-start;
-}
-
-@media(max-width: 850px) {
-  #watch-room .live-layout {
-    grid-template-columns: 1fr;
-  }
-
-  #watch-room .chat-panel {
-    min-height: 400px;
-  }
-}
-
-@media(max-width: 480px) {
-  #watch-room {
-    width: 94%;
-    margin-top: 20px;
-  }
-
-  #watch-room .live-top {
-    padding: 12px;
-  }
-
-  #watch-room .video-panel {
-    padding: 8px;
-  }
-}
-</style>
-
-<section id="watch-room" hidden>
-
-  <div class="live-top">
-    <div class="live-brand">
-      WATCH <span>TOGETHER</span>
-    </div>
-
-    <div class="room-id">
-      شناسه اتاق: <strong id="current-room-id"></strong>
-    </div>
-  </div>
-
-  <div class="live-layout">
-
-    <div class="video-column">
-
-      <div class="video-panel">
-
-        <div class="video-heading">
-          <strong>سینمای گروهی</strong>
-          <span>● LIVE ROOM</span>
-        </div>
-
-        <div class="video-screen">
-          <video id="room-video" controls playsinline></video>
-        </div>
-
-      </div>
-
-      <div class="video-tools">
-        <h3>انتخاب ویدئو</h3>
-
-        <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
-          <input
-            id="video-url"
-            type="url"
-            placeholder="لینک مستقیم فایل MP4"
-            dir="ltr"
-            style="flex:1;"
-          >
-
-          <button class="glass-btn" onclick="loadRoomVideo()">
-            ▶ پخش ویدئو
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="chat-panel">
-
-      <div class="chat-heading">
-        <strong>گفت‌وگوی زنده</strong>
-        <small>چت گروهی</small>
-      </div>
-
-      <div class="chat-messages" id="chat-messages">
-
-        <div class="chat-message">
-          <strong>سیستم</strong>
-          به سینمای گروهی خوش آمدید!
-        </div>
-
-      </div>
-
-      <div class="chat-bottom">
-
-        <div class="chat-send">
-          <input
-            class="chat-input"
-            id="chat-input"
-            placeholder="پیام خود را بنویسید..."
-          >
-
-          <button class="glass-btn" type="button" title="ارسال پیام">
-            ➤
-          </button>
-        </div>
-
-        <div class="invite-row">
-          <small>دعوت دوستان به اتاق</small>
-
-          <button class="glass-btn" onclick="copyRoomLink()">
-            ◈ کپی لینک دعوت
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="back-row">
-    <button class="glass-btn" onclick="leaveRoom()">
-      ← بازگشت به صفحه اصلی
-    </button>
-  </div>
-
-</section>
 
 </body>
 </html>
-
