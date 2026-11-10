@@ -623,5 +623,83 @@ function joinRoom() {
 }
 </script>
 
+<section class="glass-card" id="watch-room" hidden>
+  <div class="card-title">سینمای خصوصی شما</div>
+
+  <div class="room-box">
+    <h3>اتاق تماشا</h3>
+    <p>شناسه اتاق:</p>
+
+    <strong id="current-room-id" dir="ltr"></strong>
+
+    <button class="btn secondary" onclick="copyRoomLink()">
+      کپی لینک دعوت
+    </button>
+
+    <div class="video-container">
+      <video id="room-video" controls playsinline></video>
+    </div>
+
+    <div class="room-box">
+      <h3>انتخاب ویدئو</h3>
+      <input
+        class="input"
+        id="video-url"
+        type="url"
+        placeholder="لینک مستقیم فایل MP4"
+        dir="ltr"
+      >
+      <button class="btn primary" onclick="loadRoomVideo()">
+        پخش ویدئو
+      </button>
+    </div>
+
+    <button class="btn secondary" onclick="leaveRoom()">
+      بازگشت به صفحه اصلی
+    </button>
+  </div>
+</section>
+
+<script>
+function showRoom() {
+  const params = new URLSearchParams(window.location.search);
+  const roomId = params.get("room");
+
+  if (!roomId || !/^[a-f0-9]{8}$/i.test(roomId)) return;
+
+  document.querySelector(".hero").hidden = true;
+  document.getElementById("rooms").hidden = true;
+
+  document.getElementById("watch-room").hidden = false;
+  document.getElementById("current-room-id").textContent = roomId;
+}
+
+function copyRoomLink() {
+  navigator.clipboard.writeText(window.location.href);
+  alert("لینک اتاق کپی شد.");
+}
+
+function loadRoomVideo() {
+  const url = document.getElementById("video-url").value.trim();
+  const video = document.getElementById("room-video");
+
+  if (!url) {
+    alert("لینک ویدئو را وارد کن.");
+    return;
+  }
+
+  video.src = url;
+  video.load();
+}
+
+function leaveRoom() {
+  window.location.href = window.location.origin;
+}
+
+showRoom();
+</script>
+</body>
+</html>
+
 </body>
 </html>
