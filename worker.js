@@ -32,7 +32,7 @@ export default {
       return json({
         status: "online",
         service: "Watch Together API",
-        version: "1.2.0"
+        version: "1.3.0"
       });
     }
 
@@ -72,8 +72,12 @@ export default {
 
       const room = env.ROOMS.getByName(roomId);
 
-      // مهم: درخواست اصلی را بدون ساختن Request جدید منتقل می‌کنیم.
-      return room.fetch(request);
+      const internalUrl = new URL(request.url);
+      internalUrl.pathname = "/ws";
+
+      const internalRequest = new Request(internalUrl.toString(), request);
+
+      return room.fetch(internalRequest);
     }
 
     return new Response("Not Found", { status: 404 });
@@ -93,7 +97,7 @@ export class WatchRoom extends DurableObject {
       return new Response("Room initialized");
     }
 
-    if (!url.pathname.startsWith("/ws/")) {
+    if (url.pathname !== "/ws") {
       return new Response("Not Found", { status: 404 });
     }
 
