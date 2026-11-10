@@ -32,7 +32,7 @@ export default {
       return json({
         status: "online",
         service: "Watch Together API",
-        version: "1.1.0"
+        version: "1.2.0"
       });
     }
 
@@ -57,16 +57,23 @@ export default {
     if (url.pathname.startsWith("/ws/")) {
       const roomId = url.pathname.split("/")[2];
 
-      if (!roomId) {
-        return new Response("Room ID required", { status: 400 });
+      if (!roomId || !/^[a-f0-9]{8}$/i.test(roomId)) {
+        return new Response("Invalid Room ID", { status: 400 });
+      }
+
+      if (
+        request.method !== "GET" ||
+        request.headers.get("Upgrade")?.toLowerCase() !== "websocket"
+      ) {
+        return new Response("WebSocket upgrade required", {
+          status: 426
+        });
       }
 
       const room = env.ROOMS.getByName(roomId);
 
-      const roomUrl = new URL(request.url);
-      roomUrl.pathname = "/ws";
-
-      return room.fetch(new Request(roomUrl, request));
+      // مهم: درخواست اصلی را بدون ساختن Request جدید منتقل می‌کنیم.
+      return room.fetch(request);
     }
 
     return new Response("Not Found", { status: 404 });
@@ -86,12 +93,17 @@ export class WatchRoom extends DurableObject {
       return new Response("Room initialized");
     }
 
-    if (url.pathname !== "/ws") {
+    if (!url.pathname.startsWith("/ws/")) {
       return new Response("Not Found", { status: 404 });
     }
 
-    if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket") {
-      return new Response("WebSocket upgrade required", { status: 426 });
+    if (
+      request.method !== "GET" ||
+      request.headers.get("Upgrade")?.toLowerCase() !== "websocket"
+    ) {
+      return new Response("WebSocket upgrade required", {
+        status: 426
+      });
     }
 
     const pair = new WebSocketPair();
