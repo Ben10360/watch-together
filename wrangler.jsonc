@@ -12,11 +12,10 @@
       }
     ]
   },
-  "migrations": [
-    {
-      "tag": "v1",
-      "new_sqlite_classes": ["WatchRoom"]
+  "exports": {
+    "WatchRoom": {
+      "type": "durable-object",
+      "storage": "sqlite"
     }
-  ]
+  }
 }
-
