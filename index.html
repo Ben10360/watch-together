@@ -597,9 +597,21 @@ async function copyInviteLink() {
     alert("لینک را به صورت دستی کپی کن.");
   }
 }
+
 function joinRoom() {
   const input = document.getElementById("join-code");
+
+  if (!input) {
+    alert("کادر ورود به اتاق پیدا نشد.");
+    return;
+  }
+
   const value = input.value.trim();
+
+  if (!value) {
+    alert("شناسه یا لینک اتاق را وارد کن.");
+    return;
+  }
 
   let roomId = value;
 
@@ -612,6 +624,15 @@ function joinRoom() {
     alert("لینک اتاق معتبر نیست.");
     return;
   }
+
+  if (!roomId || !/^[a-f0-9]{8}$/i.test(roomId)) {
+    alert("شناسه اتاق معتبر نیست.");
+    return;
+  }
+
+  window.location.href =
+    window.location.origin + "/?room=" + roomId;
+}
 
   if (!roomId || !/^[a-f0-9]{8}$/i.test(roomId)) {
     alert("شناسه اتاق معتبر نیست.");
