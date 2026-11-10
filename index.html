@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101522">
+<title>Watch Together | سینمای گروهی</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --pink: #f48fb1;
+  --blue: #80d8ff;
+  --purple: #a5b4fc;
+  --bg: #101522;
+  --glass: rgba(255,255,255,.075);
+  --border: rgba(255,255,255,.14);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: 'Vazirmatn', sans-serif;
+  color: #fff;
+  background:
+    radial-gradient(ellipse at 15% 15%, rgba(244,143,177,.17), transparent 40%),
+    radial-gradient(ellipse at 85% 55%, rgba(128,216,255,.17), transparent 42%),
+    #101522;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .12;
+  background-image: radial-gradient(#ffffff 0.7px, transparent 0.7px);
+  background-size: 32px 32px;
+}
+
+.navbar {
+  width: min(1150px, 90%);
+  margin: auto;
+  padding: 26px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  direction: ltr;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.logo span {
+  background: linear-gradient(90deg,var(--pink),var(--blue));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.nav-label {
+  font-size: 12px;
+  color: #aab4c8;
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+}
+
+.hero {
+  width: min(1150px, 90%);
+  min-height: 570px;
+  margin: 35px auto 80px;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 35px;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.tag {
+  display: inline-block;
+  padding: 8px 15px;
+  border: 1px solid rgba(244,143,177,.3);
+  background: rgba(244,143,177,.09);
+  color: #f7b2cc;
+  border-radius: 30px;
+  font-size: 11px;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: clamp(35px,5vw,61px);
+  line-height: 1.55;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
+
+h1 span {
+  background: linear-gradient(90deg,#f48fb1,#80d8ff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.description {
+  color: #aab4c8;
+  font-size: 14px;
+  line-height: 2.3;
+  max-width: 470px;
+  margin: 20px 0 32px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn {
+  padding: 13px 23px;
+  border-radius: 13px;
+  border: 1px solid var(--border);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.primary {
+  color: #151522;
+  font-weight: 700;
+  background: linear-gradient(110deg,#f48fb1,#80d8ff);
+  border: none;
+  box-shadow: 0 8px 30px rgba(244,143,177,.17);
+}
+
+.secondary {
+  color: white;
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(128,216,255,.17);
+}
+
+.visual {
+  min-height: 430px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.orb {
+  width: 245px;
+  height: 245px;
+  border-radius: 50%;
+  position: relative;
+  background:
+    radial-gradient(circle at 30% 25%,
+    rgba(255,255,255,.95),
+    rgba(244,143,177,.45) 22%,
+    rgba(128,216,255,.25) 52%,
+    rgba(255,255,255,.04) 72%);
+  border: 1px solid rgba(255,255,255,.5);
+  box-shadow:
+    inset -20px -20px 55px rgba(128,216,255,.24),
+    inset 15px 15px 35px rgba(255,255,255,.24),
+    0 0 80px rgba(244,143,177,.22),
+    0 0 110px rgba(128,216,255,.15);
+  backdrop-filter: blur(10px);
+  animation: float 6s ease-in-out infinite;
+}
+
+.orb::before {
+  content: "";
+  position: absolute;
+  width: 310px;
+  height: 85px;
+  border: 2px solid rgba(128,216,255,.45);
+  border-radius: 50%;
+  top: 75px;
+  left: -34px;
+  transform: rotate(-28deg);
+  box-shadow: 0 0 22px rgba(128,216,255,.2);
+}
+
+.orb::after {
+  content: "";
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  background: rgba(255,255,255,.23);
+  filter: blur(18px);
+  border-radius: 50%;
+  top: 35px;
+  left: 45px;
+}
+
+.mini-orb {
+  position: absolute;
+  border-radius: 50%;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.5);
+  animation: float 5s ease-in-out infinite;
+}
+
+.mini-one {
+  width: 65px;
+  height: 65px;
+  top: 55px;
+  right: 20px;
+  background: rgba(128,216,255,.25);
+}
+
+.mini-two {
+  width: 43px;
+  height: 43px;
+  bottom: 65px;
+  left: 30px;
+  background: rgba(244,143,177,.35);
+  animation-delay: -2s;
+}
+
+.glass-card {
+  width: min(1150px,90%);
+  margin: 0 auto 60px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: rgba(255,255,255,.055);
+  backdrop-filter: blur(22px);
+  box-shadow: 0 20px 65px rgba(0,0,0,.14);
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.room-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.room-box {
+  background: rgba(255,255,255,.045);
+  border: 1px solid rgba(255,255,255,.1);
+  padding: 23px;
+  border-radius: 17px;
+}
+
+.room-box h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.room-box p {
+  color: #aab4c8;
+  font-size: 11px;
+  line-height: 2;
+  margin-bottom: 17px;
+}
+
+.input {
+  width: 100%;
+  padding: 13px;
+  color: white;
+  background: rgba(0,0,0,.18);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  margin-bottom: 12px;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 15px rgba(128,216,255,.1);
+}
+
+.input::placeholder {
+  color: #8e99aa;
+}
+
+.room-box button {
+  width: 100%;
+}
+
+.features {
+  width: min(1150px,90%);
+  margin: 0 auto 80px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 18px;
+}
+
+.feature {
+  padding: 23px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  backdrop-filter: blur(18px);
+}
+
+.feature .symbol {
+  font-size: 25px;
+  margin-bottom: 13px;
+}
+
+.feature h3 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.feature p {
+  font-size: 11px;
+  color: #aab4c8;
+  line-height: 2;
+}
+
+footer {
+  padding: 25px;
+  text-align: center;
+  color: #8792a6;
+  font-size: 11px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-17px) rotate(4deg); }
+}
+
+@media(max-width:800px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  .content {
+    order: 1;
+  }
+
+  .visual {
+    order: 0;
+    min-height: 300px;
+  }
+
+  .orb {
+    width: 180px;
+    height: 180px;
+  }
+
+  .orb::before {
+    width: 240px;
+    height: 65px;
+    left: -30px;
+    top: 55px;
+  }
+
+  .description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .actions {
+    justify-content: center;
+  }
+
+  .room-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+  <div class="logo">WATCH <span>TOGETHER</span></div>
+  <div class="nav-label">سینمای خصوصی شما</div>
+</header>
+
+<section class="hero">
+
+  <div class="content">
+    <div class="tag">✦ A NEW WAY TO WATCH</div>
+
+    <h1>
+      سینما بهتره<br>
+      <span>وقتی با هم باشیم.</span>
+    </h1>
+
+    <p class="description">
+      دوستانت را دعوت کن، فیلم موردعلاقه‌ات را انتخاب کن
+      و از تجربه تماشای گروهی در یک فضای مشترک لذت ببر.
+    </p>
+
+    <div class="actions">
+      <button class="btn primary"
+        onclick="document.getElementById('rooms').scrollIntoView({behavior:'smooth'})">
+        ساخت اتاق جدید
+      </button>
+
+      <button class="btn secondary"
+        onclick="document.getElementById('join-code').focus()">
+        ورود به اتاق
+      </button>
+    </div>
+  </div>
+
+  <div class="visual">
+    <div class="orb"></div>
+    <div class="mini-orb mini-one"></div>
+    <div class="mini-orb mini-two"></div>
+  </div>
+
+</section>
+
+<section class="glass-card" id="rooms">
+  <div class="card-title">شروع تماشای گروهی</div>
+
+  <div class="room-grid">
+
+    <div class="room-box">
+      <h3>ساخت اتاق جدید</h3>
+      <p>یک اتاق خصوصی بساز و دوستانت را دعوت کن.</p>
+      <button class="btn primary" onclick="comingSoon()">
+        + ساخت اتاق
+      </button>
+    </div>
+
+    <div class="room-box">
+      <h3>ورود به اتاق</h3>
+      <p>کد یا لینک اتاق دوستت را وارد کن.</p>
+      <input
+        class="input"
+        id="join-code"
+        type="text"
+        placeholder="Room ID یا لینک اتاق"
+      >
+      <button class="btn secondary" onclick="comingSoon()">
+        ورود به اتاق
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<section class="features">
+
+  <div class="feature">
+    <div class="symbol">◉</div>
+    <h3>پخش هماهنگ</h3>
+    <p>همه اعضا فیلم را با زمان پخش یکسان تماشا می‌کنند.</p>
+  </div>
+
+  <div class="feature">
+    <div class="symbol">✧</div>
+    <h3>اتاق خصوصی</h3>
+    <p>دوستانت را با یک لینک اختصاصی به اتاق دعوت کن.</p>
+  </div>
+
+  <div class="feature">
+    <div class="symbol">▤</div>
+    <h3>چت زنده</h3>
+    <p>هنگام تماشای فیلم با دوستانت گفتگو کن.</p>
+  </div>
+
+</section>
+
+<footer>
+  WATCH TOGETHER · YOUR SHARED CINEMA · 2026
+</footer>
+
+<script>
+function comingSoon() {
+  alert("سیستم اتاق‌ها در مرحله توسعه است.");
+}
+</script>
+
+</body>
+</html>
