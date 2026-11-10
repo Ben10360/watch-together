@@ -1,2 +1,2 @@
 # watch-together
-Watch Together API project
+Worker deployment test - version 1.1.0
