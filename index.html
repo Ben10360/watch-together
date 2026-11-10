@@ -508,9 +508,9 @@ footer {
         type="text"
         placeholder="Room ID یا لینک اتاق"
       >
-      <button class="btn secondary" onclick="comingSoon()">
-        ورود به اتاق
-      </button>
+      <button class="btn secondary" onclick="joinRoom()">
+  ورود به اتاق
+</button>
     </div>
 
   </div>
@@ -597,7 +597,30 @@ async function copyInviteLink() {
     alert("لینک را به صورت دستی کپی کن.");
   }
 }
+function joinRoom() {
+  const input = document.getElementById("join-code");
+  const value = input.value.trim();
 
+  let roomId = value;
+
+  try {
+    if (value.includes("://")) {
+      const url = new URL(value);
+      roomId = url.searchParams.get("room");
+    }
+  } catch {
+    alert("لینک اتاق معتبر نیست.");
+    return;
+  }
+
+  if (!roomId || !/^[a-f0-9]{8}$/i.test(roomId)) {
+    alert("شناسه اتاق معتبر نیست.");
+    return;
+  }
+
+  window.location.href =
+    `${window.location.origin}/?room=${roomId}`;
+}
 </script>
 
 </body>
