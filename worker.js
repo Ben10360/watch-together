@@ -60,10 +60,9 @@ export class WatchRoom extends DurableObject {
       return new Response("Not Found", { status: 404 });
     }
 
-    if (request.headers.get("Upgrade") !== "websocket") {
-      return new Response("WebSocket required", { status: 426 });
-    }
-
+    if (!url.pathname.startsWith("/ws")) {
+  return new Response("Not Found", { status: 404 });
+}
     const pair = new WebSocketPair();
     const client = pair[0];
     const server = pair[1];
