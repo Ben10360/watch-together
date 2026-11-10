@@ -623,83 +623,328 @@ function joinRoom() {
 }
 </script>
 
-<section class="glass-card" id="watch-room" hidden>
-  <div class="card-title">سینمای خصوصی شما</div>
 
-  <div class="room-box">
-    <h3>اتاق تماشا</h3>
-    <p>شناسه اتاق:</p>
-
-    <strong id="current-room-id" dir="ltr"></strong>
-
-    <button class="btn secondary" onclick="copyRoomLink()">
-      کپی لینک دعوت
-    </button>
-
-    <div class="video-container">
-      <video id="room-video" controls playsinline></video>
-    </div>
-
-    <div class="room-box">
-      <h3>انتخاب ویدئو</h3>
-      <input
-        class="input"
-        id="video-url"
-        type="url"
-        placeholder="لینک مستقیم فایل MP4"
-        dir="ltr"
-      >
-      <button class="btn primary" onclick="loadRoomVideo()">
-        پخش ویدئو
-      </button>
-    </div>
-
-    <button class="btn secondary" onclick="leaveRoom()">
-      بازگشت به صفحه اصلی
-    </button>
-  </div>
-</section>
-
-<script>
-function showRoom() {
-  const params = new URLSearchParams(window.location.search);
-  const roomId = params.get("room");
-
-  if (!roomId || !/^[a-f0-9]{8}$/i.test(roomId)) return;
-
-  document.querySelector(".hero").hidden = true;
-  document.getElementById("rooms").hidden = true;
-
-  document.getElementById("watch-room").hidden = false;
-  document.getElementById("current-room-id").textContent = roomId;
+<style>
+#watch-room {
+  width: min(1400px, 96%);
+  margin: 35px auto;
+  color: #fff;
 }
 
-function copyRoomLink() {
-  navigator.clipboard.writeText(window.location.href);
-  alert("لینک اتاق کپی شد.");
+#watch-room .live-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 18px;
+  backdrop-filter: blur(18px);
 }
 
-function loadRoomVideo() {
-  const url = document.getElementById("video-url").value.trim();
-  const video = document.getElementById("room-video");
+#watch-room .live-brand {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
 
-  if (!url) {
-    alert("لینک ویدئو را وارد کن.");
-    return;
+#watch-room .live-brand span {
+  color: #d77bff;
+}
+
+#watch-room .room-id {
+  color: #b9c9ff;
+  direction: ltr;
+  font-size: 13px;
+}
+
+#watch-room .live-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: 18px;
+  align-items: stretch;
+}
+
+#watch-room .video-panel,
+#watch-room .chat-panel,
+#watch-room .video-tools {
+  background: rgba(255,255,255,.065);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 35px rgba(0,0,0,.2);
+}
+
+#watch-room .video-panel {
+  padding: 12px;
+}
+
+#watch-room .video-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 3px 5px;
+}
+
+#watch-room .video-heading span {
+  color: #ff8bd2;
+  font-size: 13px;
+}
+
+#watch-room .video-screen {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #080b18;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+#watch-room .video-screen video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#watch-room .video-tools {
+  margin-top: 14px;
+  padding: 16px;
+}
+
+#watch-room .video-tools input,
+#watch-room .chat-input {
+  min-width: 0;
+  width: 100%;
+  padding: 13px;
+  color: white;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 12px;
+  outline: none;
+}
+
+#watch-room input::placeholder {
+  color: #aeb4ca;
+}
+
+#watch-room .glass-btn {
+  border: 1px solid rgba(255,255,255,.22);
+  background: linear-gradient(
+    135deg,
+    rgba(225,90,255,.2),
+    rgba(65,160,255,.2)
+  );
+  color: white;
+  border-radius: 12px;
+  padding: 11px 15px;
+  cursor: pointer;
+  backdrop-filter: blur(15px);
+  transition: .2s;
+}
+
+#watch-room .glass-btn:hover {
+  border-color: #d58aff;
+  box-shadow: 0 0 18px rgba(180,100,255,.3);
+}
+
+#watch-room .chat-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+  overflow: hidden;
+}
+
+#watch-room .chat-heading {
+  padding: 17px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#watch-room .chat-heading small {
+  color: #9ebdff;
+}
+
+#watch-room .chat-messages {
+  flex: 1;
+  min-height: 220px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+#watch-room .chat-message {
+  margin-bottom: 18px;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+#watch-room .chat-message strong {
+  color: #d99aff;
+  margin-left: 5px;
+}
+
+#watch-room .chat-bottom {
+  padding: 12px;
+  border-top: 1px solid rgba(255,255,255,.12);
+  background: rgba(5,10,30,.22);
+}
+
+#watch-room .chat-send {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#watch-room .invite-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+#watch-room .invite-row small {
+  color: #b9c8e8;
+}
+
+#watch-room .back-row {
+  margin-top: 18px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+@media(max-width: 850px) {
+  #watch-room .live-layout {
+    grid-template-columns: 1fr;
   }
 
-  video.src = url;
-  video.load();
+  #watch-room .chat-panel {
+    min-height: 400px;
+  }
 }
 
-function leaveRoom() {
-  window.location.href = window.location.origin;
-}
+@media(max-width: 480px) {
+  #watch-room {
+    width: 94%;
+    margin-top: 20px;
+  }
 
-showRoom();
-</script>
+  #watch-room .live-top {
+    padding: 12px;
+  }
+
+  #watch-room .video-panel {
+    padding: 8px;
+  }
+}
+</style>
+
+<section id="watch-room" hidden>
+
+  <div class="live-top">
+    <div class="live-brand">
+      WATCH <span>TOGETHER</span>
+    </div>
+
+    <div class="room-id">
+      شناسه اتاق: <strong id="current-room-id"></strong>
+    </div>
+  </div>
+
+  <div class="live-layout">
+
+    <div class="video-column">
+
+      <div class="video-panel">
+
+        <div class="video-heading">
+          <strong>سینمای گروهی</strong>
+          <span>● LIVE ROOM</span>
+        </div>
+
+        <div class="video-screen">
+          <video id="room-video" controls playsinline></video>
+        </div>
+
+      </div>
+
+      <div class="video-tools">
+        <h3>انتخاب ویدئو</h3>
+
+        <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+          <input
+            id="video-url"
+            type="url"
+            placeholder="لینک مستقیم فایل MP4"
+            dir="ltr"
+            style="flex:1;"
+          >
+
+          <button class="glass-btn" onclick="loadRoomVideo()">
+            ▶ پخش ویدئو
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="chat-panel">
+
+      <div class="chat-heading">
+        <strong>گفت‌وگوی زنده</strong>
+        <small>چت گروهی</small>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+
+        <div class="chat-message">
+          <strong>سیستم</strong>
+          به سینمای گروهی خوش آمدید!
+        </div>
+
+      </div>
+
+      <div class="chat-bottom">
+
+        <div class="chat-send">
+          <input
+            class="chat-input"
+            id="chat-input"
+            placeholder="پیام خود را بنویسید..."
+          >
+
+          <button class="glass-btn" type="button" title="ارسال پیام">
+            ➤
+          </button>
+        </div>
+
+        <div class="invite-row">
+          <small>دعوت دوستان به اتاق</small>
+
+          <button class="glass-btn" onclick="copyRoomLink()">
+            ◈ کپی لینک دعوت
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="back-row">
+    <button class="glass-btn" onclick="leaveRoom()">
+      ← بازگشت به صفحه اصلی
+    </button>
+  </div>
+
+</section>
+
 </body>
 </html>
 
-</body>
-</html>
