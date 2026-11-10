@@ -346,7 +346,27 @@ footer {
   font-size: 11px;
   border-top: 1px solid rgba(255,255,255,.08);
 }
+.room-result {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid rgba(128,216,255,.25);
+  border-radius: 14px;
+  background: rgba(128,216,255,.07);
+}
 
+.room-result[hidden] {
+  display: none;
+}
+
+.room-result .input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.room-result .btn {
+  width: 100%;
+}
 @keyframes float {
   0%,100% { transform: translateY(0) rotate(0); }
   50% { transform: translateY(-17px) rotate(4deg); }
@@ -458,9 +478,25 @@ footer {
     <div class="room-box">
       <h3>ساخت اتاق جدید</h3>
       <p>یک اتاق خصوصی بساز و دوستانت را دعوت کن.</p>
-      <button class="btn primary" onclick="comingSoon()">
-        + ساخت اتاق
-      </button>
+      <button class="btn primary" id="create-room-btn" onclick="createRoom()">
+  + ساخت اتاق
+</button>
+
+<div class="room-result" id="room-result" hidden>
+  <p id="room-message">اتاق شما ساخته شد!</p>
+
+  <input
+    class="input"
+    id="invite-link"
+    type="text"
+    readonly
+    dir="ltr"
+  >
+
+  <button class="btn secondary" onclick="copyInviteLink()">
+    کپی لینک دعوت
+  </button>
+</div>
     </div>
 
     <div class="room-box">
@@ -507,9 +543,61 @@ footer {
 </footer>
 
 <script>
-function comingSoon() {
-  alert("سیستم اتاق‌ها در مرحله توسعه است.");
+
+const API_BASE = "https://watch-together-api.amirali-nasiri-200.workers.dev";
+
+async function createRoom() {
+  const button = document.getElementById("create-room-btn");
+  const result = document.getElementById("room-result");
+  const message = document.getElementById("room-message");
+  const inviteInput = document.getElementById("invite-link");
+
+  button.disabled = true;
+  button.textContent = "در حال ساخت اتاق...";
+  result.hidden = true;
+
+  try {
+    const response = await fetch(`${API_BASE}/api/rooms`, {
+      method: "POST"
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success || !data.roomId) {
+      throw new Error(data.message || "Room creation failed");
+    }
+
+    const inviteUrl = new URL("/", window.location.origin);
+    inviteUrl.searchParams.set("room", data.roomId);
+
+    inviteInput.value = inviteUrl.toString();
+    message.textContent = `اتاق شما با شناسه ${data.roomId} ساخته شد.`;
+
+    result.hidden = false;
+    button.textContent = "اتاق ساخته شد";
+
+  } catch (error) {
+    console.error(error);
+    alert("ساخت اتاق ناموفق بود. اتصال سرور را بررسی کن.");
+    button.textContent = "+ ساخت اتاق";
+
+  } finally {
+    button.disabled = false;
+  }
 }
+
+async function copyInviteLink() {
+  const inviteInput = document.getElementById("invite-link");
+
+  try {
+    await navigator.clipboard.writeText(inviteInput.value);
+    alert("لینک دعوت کپی شد!");
+  } catch {
+    inviteInput.select();
+    alert("لینک را به صورت دستی کپی کن.");
+  }
+}
+
 </script>
 
 </body>
